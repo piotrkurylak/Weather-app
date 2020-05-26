@@ -1,0 +1,79 @@
+@import 'variables',
+'mixins';
+
+* {
+    font-family: $font-family;
+    color: $font-color;
+}
+
+body {
+    @include reset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.day{
+    @include day-gradient;
+}
+
+.night{
+    @include night-gradient;
+}
+
+.notification {
+    @include respond-to('small') {
+        font-size: 26px;
+    }
+    display: none;
+    position: absolute;
+    top: 20px;
+    font-size: 16px;
+
+}
+
+.weather {
+    width: 350px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-image: url('/icons/day-background.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+
+
+    &__value {
+        padding: 0;
+        margin: 0;
+        font-size: 64px;
+        text-align: center;
+        cursor: pointer;
+        text-align: center;
+
+    }
+
+    &__mark {
+        font-size: 36px;
+    }
+
+
+    &__description {
+        padding: 8px;
+        margin: 0;
+        text-align: center;
+        font-size: 19px;
+    }
+
+    &__location {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,40 @@
+// Background style
+@mixin day-gradient {
+  background: linear-gradient(to bottom, #ff6c0a 0%, #ffde38 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff6d0a', endColorstr='#ffdc37', GradientType=0);
+}
+
+@mixin night-gradient {
+  background: linear-gradient(to bottom, rgba(179, 6, 165, 1) 0%, rgba(240, 47, 23, 1) 0%, rgba(87, 36, 189, 1) 0%, rgba(1, 19, 102, 1) 0%, rgba(87, 36, 189, 1) 54%, rgba(179, 6, 165, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b306a5', endColorstr='#b306a5', GradientType=0);
+}
+
+
+//  Reset padding and margin
+@mixin reset {
+  padding: 0;
+  margin: 0;
+}
+
+
+/// Mixin to manage responsive breakpoints
+/// @author Hugo Giraudel
+/// @param {String} $breakpoint - Breakpoint name
+/// @require $breakpoints
+@mixin respond-to($breakpoint) {
+
+  // If the key exists in the map
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Prints a media query based on the value
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+    +"Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
