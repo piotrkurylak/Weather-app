@@ -60,6 +60,8 @@ function showError(error) {
     notificationElement.style.display = 'block';
     notificationElement.innerHTML = `<p>${error.message}</p>`
     dateContainerElement.style.display = `none`;
+    timeElement.style.display = `none`;
+    dateElement.style.display = `none`;
 
 }
 
