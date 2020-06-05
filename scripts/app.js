@@ -197,9 +197,9 @@ function updateDate() {
     dateElement.innerHTML = `${day}/${month}/${year}`
     if (minute < 10) {
         minute = `0` + minute;
-        timeElement.innerHTML = `${name}, ${hour}:${minute}`;
+        timeElement.innerHTML = `${name}, 22;32`;
     } else {
-        timeElement.innerHTML = `${name}, ${hour}:${minute}`;
+        timeElement.innerHTML = `${name}, 22;32`;
     }
 }
 
@@ -208,7 +208,7 @@ updateDate();
 
 function updateBackground() {
     const date = new Date();
-    const hour = date.getHours();
+    const hour = 22;
     if (hour > 18 || hour < 6) {
         document.body.classList.add('night');
         weatherElement.style.boxShadow = '5px 5px 62px 0px rgba(1,20,102,1)';
