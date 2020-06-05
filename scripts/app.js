@@ -9,6 +9,7 @@ const descriptionElement = document.querySelector('.weather__description');
 const locationElement = document.querySelector('.weather__location');
 const notificationElement = document.querySelector('.notification');
 const weatherElement = document.querySelector('.weather');
+const dateContainerElement = document.querySelector('.weather__date-container');
 const timeElement = document.querySelector('.weather__time');
 const dateElement = document.querySelector('.weather__date');
 const forecastDayElement = document.querySelector('.weather__days');
@@ -58,6 +59,8 @@ function setPosition(position) {
 function showError(error) {
     notificationElement.style.display = 'block';
     notificationElement.innerHTML = `<p>${error.message}</p>`
+    dateContainerElement.style.display = `none`;
+
 }
 
 
