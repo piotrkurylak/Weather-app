@@ -28,12 +28,12 @@ weather.temperature = {
     unit: 'celcius'
 }
 
-// APP CONSTS AND VARIABLES
+// APP VARIABLES
 
 const kelvinUnit = 273;
 const apiKey = '346a40dea7b99a36f7f60113c56b1237';
 const apiKey2 = '39782423ace6fe2f7a89b4e83f1360e0';
-const dailyKey = `62b9090cc7cd709e2570593fb10c0ccf`;
+
 
 // CHECK IF BROWSER SUPPORT GEOLOCATION
 
@@ -49,7 +49,6 @@ if ('geolocation' in navigator) {
 function setPosition(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-
     getWeather(latitude, longitude);
     getWeather2(latitude, longitude);
 }
@@ -81,21 +80,23 @@ function getWeather2(latitude, longitude) {
         })
         .then(function (data) {
             weather.days = data.daily;
-            const tabOfDays = [...weather.days];
-            tabOfDays.pop();
-            tabOfDays.forEach(function (day) {
-                let date = new Date(day.dt * 1000);
-                let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                let name = days[date.getDay()];
-                let icon = day.weather[0].icon;
-                let temp = Math.floor(day.temp.day - kelvinUnit);
-                let daysOfWeek = document.createElement(`p`);
-                daysOfWeek.innerHTML = `${name}`;
+            weather.temperature.value = Math.floor(data.daily[0].temp.day - kelvinUnit);
+            weather.description = data.daily[0].weather[0].description;
+            weather.iconId = data.daily[0].weather[0].icon;
+            weather.days.pop();
+            weather.days.forEach(function (day) {
+                const date = new Date(day.dt * 1000);
+                weather.days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const nameOfDay = weather.days[date.getDay()];
+                const icon = day.weather[0].icon;
+                const tempOfDay = Math.floor(day.temp.day - kelvinUnit);
+                const daysOfWeek = document.createElement(`p`);
+                daysOfWeek.innerHTML = `${nameOfDay}`;
                 forecastDayElement.appendChild(daysOfWeek);
-                let tempofWeek = document.createElement(`p`);
-                tempofWeek.innerHTML = `${temp}ºC`;
+                const tempofWeek = document.createElement(`p`);
+                tempofWeek.innerHTML = `${tempOfDay}ºC`;
                 weatherTemperaturesElement.appendChild(tempofWeek);
-                let iconOfDay = document.createElement(`figure`);
+                const iconOfDay = document.createElement(`figure`);
                 iconOfDay.className = 'weather__photo';
                 if (document.body.classList.contains('day')) {
                     iconOfDay.innerHTML = `<img src="icons/black32px/${icon}.png"/>`;
@@ -129,9 +130,6 @@ function getWeather(latitude, longitude) {
             return data;
         })
         .then(function (data) {
-            weather.temperature.value = Math.floor(data.main.temp - kelvinUnit);
-            weather.description = data.weather[0].description;
-            weather.iconId = data.weather[0].icon;
             weather.city = data.name;
             weather.country = data.sys.country;
         })
@@ -172,10 +170,10 @@ temperatureElement.addEventListener("click", function () {
         let fahrenheit = celsiusToFahrenheit(weather.temperature.value);
         fahrenheit = Math.floor(fahrenheit);
 
-        temperatureElement.innerHTML = `${fahrenheit}°<span>F</span>`;
+        temperatureElement.innerHTML = `${fahrenheit}°F`;
         weather.temperature.unit = "fahrenheit";
     } else {
-        temperatureElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
+        temperatureElement.innerHTML = `${weather.temperature.value}°C`;
         weather.temperature.unit = "celsius"
 
     }
