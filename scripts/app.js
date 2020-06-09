@@ -32,6 +32,7 @@ weather.temperature = {
 
 const kelvinUnit = 273;
 const apiKey = '346a40dea7b99a36f7f60113c56b1237';
+const forecast = '20d1f29dbb02c3975903a895ea43e073';
 
 
 
@@ -71,6 +72,32 @@ function showError(error) {
 
 // GET WEATHER FROM API PROVIDER
 
+
+function getWeather(latitude, longitude) {
+    let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+    fetch(api)
+        .then(function (response) {
+            let data = response.json();
+            return data;
+        })
+        .then(function (data) {
+            console.log(data);
+            weather.temperature.value = Math.floor(data.main.temp - kelvinUnit);
+            weather.description = data.weather[0].description;
+            weather.iconId = data.weather[0].icon;
+            weather.city = data.name;
+            weather.country = data.sys.country;
+
+        })
+        .then(function () {
+            displayWeather();
+        });
+}
+
+
+
+
 function getWeather2(latitude, longitude) {
     let api2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${apiKey}`;
 
@@ -82,9 +109,6 @@ function getWeather2(latitude, longitude) {
         })
         .then(function (data) {
             weather.days = data.daily;
-            weather.temperature.value = Math.floor(data.daily[0].temp.day - kelvinUnit);
-            weather.description = data.daily[0].weather[0].description;
-            weather.iconId = data.daily[0].weather[0].icon;
             weather.days.pop();
             weather.days.forEach(function (day) {
                 const date = new Date(day.dt * 1000);
@@ -123,35 +147,18 @@ function getWeather2(latitude, longitude) {
 
 
 
-function getWeather(latitude, longitude) {
-    let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
-    fetch(api)
-        .then(function (response) {
-            let data = response.json();
-            return data;
-        })
-        .then(function (data) {
-            weather.city = data.name;
-            weather.country = data.sys.country;
-        })
-        .then(function () {
-            displayWeather();
-        });
-}
-
 
 // DISPLAY WEATHER TO UI
 function displayWeather() {
     if (document.body.classList.contains('day')) {
         iconElement.innerHTML = `<img src="icons/black/${weather.iconId}.png"/>`;
         temperatureElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
-        descriptionElement.innerHTML = weather.description;
+        descriptionElement.innerHTML = `${weather.description}`;
         locationElement.innerHTML = `${weather.city}, ${weather.country}`;
     } else {
         iconElement.innerHTML = `<img src="icons/white/${weather.iconId}.png"/>`;
         temperatureElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
-        descriptionElement.innerHTML = weather.description;
+        descriptionElement.innerHTML = `${weather.description}`;
         locationElement.innerHTML = `${weather.city}, ${weather.country}`;
     }
 }
