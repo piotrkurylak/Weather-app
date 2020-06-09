@@ -26,14 +26,16 @@ const weather = {};
 
 weather.temperature = {
     unit: 'celcius'
-}
+};
 
-// APP VARIABLES
+// VARIABLES
 
 const kelvinUnit = 273;
 const apiKey = '346a40dea7b99a36f7f60113c56b1237';
-const apiKey2 = '39782423ace6fe2f7a89b4e83f1360e0';
 
+
+
+// METHODS
 
 // CHECK IF BROWSER SUPPORT GEOLOCATION
 
@@ -41,7 +43,7 @@ if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(setPosition, showError);
 } else {
     notificationElement.style.display = 'block';
-    notificationElement.innerHTML = "<p>Browser doesn't support Geolocation!</p>";
+    notificationElement.innerHTML = '<p>Browser doesn\'t support Geolocation!</p>';
 }
 
 // SET USER POSITION
@@ -57,10 +59,10 @@ function setPosition(position) {
 
 function showError(error) {
     notificationElement.style.display = 'block';
-    notificationElement.innerHTML = `<p>${error.message}</p>`
-    dateContainerElement.style.display = `none`;
-    timeElement.style.display = `none`;
-    dateElement.style.display = `none`;
+    notificationElement.innerHTML = `<p>${error.message}</p>`;
+    dateContainerElement.style.display = 'none';
+    timeElement.style.display = 'none';
+    dateElement.style.display = 'none';
 
 }
 
@@ -70,7 +72,7 @@ function showError(error) {
 // GET WEATHER FROM API PROVIDER
 
 function getWeather2(latitude, longitude) {
-    let api2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${apiKey}`
+    let api2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${apiKey}`;
 
 
     fetch(api2)
@@ -90,13 +92,13 @@ function getWeather2(latitude, longitude) {
                 const nameOfDay = weather.days[date.getDay()];
                 const icon = day.weather[0].icon;
                 const tempOfDay = Math.floor(day.temp.day - kelvinUnit);
-                const daysOfWeek = document.createElement(`p`);
+                const daysOfWeek = document.createElement('p');
                 daysOfWeek.innerHTML = `${nameOfDay}`;
                 forecastDayElement.appendChild(daysOfWeek);
-                const tempofWeek = document.createElement(`p`);
+                const tempofWeek = document.createElement('p');
                 tempofWeek.innerHTML = `${tempOfDay}ºC`;
                 weatherTemperaturesElement.appendChild(tempofWeek);
-                const iconOfDay = document.createElement(`figure`);
+                const iconOfDay = document.createElement('figure');
                 iconOfDay.className = 'weather__photo';
                 if (document.body.classList.contains('day')) {
                     iconOfDay.innerHTML = `<img src="icons/black32px/${icon}.png"/>`;
@@ -108,11 +110,11 @@ function getWeather2(latitude, longitude) {
                 }
 
 
-            })
+            });
         })
         .then(function () {
             displayWeather();
-        })
+        });
 }
 
 
@@ -135,7 +137,7 @@ function getWeather(latitude, longitude) {
         })
         .then(function () {
             displayWeather();
-        })
+        });
 }
 
 
@@ -162,19 +164,22 @@ function celsiusToFahrenheit(temperature) {
     return (temperature * 9 / 5) + 32;
 }
 
+
+// INITS & EVENT LISTENERS
+
 // WHEN THE USER CLICKS ON THE TEMPERATURE ELEMENET
-temperatureElement.addEventListener("click", function () {
+temperatureElement.addEventListener('click', function () {
     if (weather.temperature.value === undefined) return;
 
-    if (weather.temperature.unit == "celsius") {
+    if (weather.temperature.unit == 'celsius') {
         let fahrenheit = celsiusToFahrenheit(weather.temperature.value);
         fahrenheit = Math.floor(fahrenheit);
 
         temperatureElement.innerHTML = `${fahrenheit}°F`;
-        weather.temperature.unit = "fahrenheit";
+        weather.temperature.unit = 'fahrenheit';
     } else {
         temperatureElement.innerHTML = `${weather.temperature.value}°C`;
-        weather.temperature.unit = "celsius"
+        weather.temperature.unit = 'celsius';
 
     }
 });
@@ -192,14 +197,14 @@ function updateDate() {
     const date = new Date();
     const hour = date.getHours();
     let minute = date.getMinutes();
-    let month = ("0" + (date.getMonth() + 1)).slice(-2);
-    let day = ("0" + date.getDate()).slice(-2);
+    let month = ('0' + (date.getMonth() + 1)).slice(-2);
+    let day = ('0' + date.getDate()).slice(-2);
     let year = date.getFullYear();
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let nameOfDay = days[date.getDay()];
-    dateElement.innerHTML = `${day}/${month}/${year}`
+    dateElement.innerHTML = `${day}/${month}/${year}`;
     if (minute < 10) {
-        minute = `0` + minute;
+        minute = '0' + minute;
         timeElement.innerHTML = `${nameOfDay}, ${hour}:${minute}`;
     } else {
         timeElement.innerHTML = `${nameOfDay}, ${hour}:${minute}`;
