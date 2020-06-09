@@ -196,13 +196,13 @@ function updateDate() {
     let day = ("0" + date.getDate()).slice(-2);
     let year = date.getFullYear();
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    let name = days[date.getDay()];
+    let nameOfDay = days[date.getDay()];
     dateElement.innerHTML = `${day}/${month}/${year}`
     if (minute < 10) {
         minute = `0` + minute;
-        timeElement.innerHTML = `${name}, ${hour}:${minute}`;
+        timeElement.innerHTML = `${nameOfDay}, ${hour}:${minute}`;
     } else {
-        timeElement.innerHTML = `${name}, ${hour}:${minute}`;
+        timeElement.innerHTML = `${nameOfDay}, ${hour}:${minute}`;
     }
 }
 
@@ -219,7 +219,6 @@ function updateBackground() {
 
     } else {
         document.body.classList.add('day');
-
         weatherElement.style.boxShadow = '5px 5px 62px 0px rgba(141,76,18,1)';
         weatherElement.style.backgroundImage = 'url(icons/day-background.png)';
         document.body.style.color = '#000';
