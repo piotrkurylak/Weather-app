@@ -32,7 +32,6 @@ weather.temperature = {
 
 const kelvinUnit = 273;
 const apiKey = '346a40dea7b99a36f7f60113c56b1237';
-const forecast = '20d1f29dbb02c3975903a895ea43e073';
 
 
 
