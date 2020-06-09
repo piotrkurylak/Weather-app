@@ -34,14 +34,73 @@ const apiKey = '346a40dea7b99a36f7f60113c56b1237';
 
 // METHODS
 
-// CHECK IF BROWSER SUPPORT GEOLOCATION
 
-if ('geolocation' in navigator) {
-  navigator.geolocation.getCurrentPosition(setPosition, showError);
-} else {
-  notificationElement.style.display = 'block';
-  notificationElement.innerHTML = '<p>Browser doesn\'t support Geolocation!</p>';
-}
+// GET WEATHER FROM API PROVIDER
+
+
+function getWeather(latitude, longitude) {
+    const api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+    fetch(api)
+      .then((response) => {
+        const data = response.json();
+        return data;
+      })
+      .then((data) => {
+        console.log(data);
+        weather.temperature.value = Math.floor(data.main.temp - kelvinUnit);
+        weather.description = data.weather[0].description;
+        weather.iconId = data.weather[0].icon;
+        weather.city = data.name;
+        weather.country = data.sys.country;
+      })
+      .then(() => {
+        displayWeather();
+      });
+  }
+
+
+  function getWeather2(latitude, longitude) {
+    const api2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${apiKey}`;
+
+
+    fetch(api2)
+      .then((response) => {
+        const data = response.json();
+        return data;
+      })
+      .then((data) => {
+        weather.days = data.daily;
+        weather.days.pop();
+        weather.days.forEach((day) => {
+          const date = new Date(day.dt * 1000);
+          weather.days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+          const nameOfDay = weather.days[date.getDay()];
+          const { icon } = day.weather[0];
+          const tempOfDay = Math.floor(day.temp.day - kelvinUnit);
+          const daysOfWeek = document.createElement('p');
+          daysOfWeek.innerHTML = `${nameOfDay}`;
+          forecastDayElement.appendChild(daysOfWeek);
+          const tempofWeek = document.createElement('p');
+          tempofWeek.innerHTML = `${tempOfDay}ºC`;
+          weatherTemperaturesElement.appendChild(tempofWeek);
+          const iconOfDay = document.createElement('figure');
+          iconOfDay.className = 'weather__photo';
+          if (document.body.classList.contains('day')) {
+            iconOfDay.innerHTML = `<img src="icons/black32px/${icon}.png"/>`;
+
+            weatherIconsElement.appendChild(iconOfDay);
+          } else {
+            iconOfDay.innerHTML = `<img src="icons/white32px/${icon}.png"/>`;
+            weatherIconsElement.appendChild(iconOfDay);
+          }
+        });
+      })
+      .then(() => {
+        displayWeather();
+      });
+  }
+
 
 // SET USER POSITION
 
@@ -63,70 +122,14 @@ function showError(error) {
 }
 
 
-// GET WEATHER FROM API PROVIDER
 
+// CHECK IF BROWSER SUPPORT GEOLOCATION
 
-function getWeather(latitude, longitude) {
-  const api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
-  fetch(api)
-    .then((response) => {
-      const data = response.json();
-      return data;
-    })
-    .then((data) => {
-      console.log(data);
-      weather.temperature.value = Math.floor(data.main.temp - kelvinUnit);
-      weather.description = data.weather[0].description;
-      weather.iconId = data.weather[0].icon;
-      weather.city = data.name;
-      weather.country = data.sys.country;
-    })
-    .then(() => {
-      displayWeather();
-    });
-}
-
-
-function getWeather2(latitude, longitude) {
-  const api2 = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${apiKey}`;
-
-
-  fetch(api2)
-    .then((response) => {
-      const data = response.json();
-      return data;
-    })
-    .then((data) => {
-      weather.days = data.daily;
-      weather.days.pop();
-      weather.days.forEach((day) => {
-        const date = new Date(day.dt * 1000);
-        weather.days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const nameOfDay = weather.days[date.getDay()];
-        const { icon } = day.weather[0];
-        const tempOfDay = Math.floor(day.temp.day - kelvinUnit);
-        const daysOfWeek = document.createElement('p');
-        daysOfWeek.innerHTML = `${nameOfDay}`;
-        forecastDayElement.appendChild(daysOfWeek);
-        const tempofWeek = document.createElement('p');
-        tempofWeek.innerHTML = `${tempOfDay}ºC`;
-        weatherTemperaturesElement.appendChild(tempofWeek);
-        const iconOfDay = document.createElement('figure');
-        iconOfDay.className = 'weather__photo';
-        if (document.body.classList.contains('day')) {
-          iconOfDay.innerHTML = `<img src="icons/black32px/${icon}.png"/>`;
-
-          weatherIconsElement.appendChild(iconOfDay);
-        } else {
-          iconOfDay.innerHTML = `<img src="icons/white32px/${icon}.png"/>`;
-          weatherIconsElement.appendChild(iconOfDay);
-        }
-      });
-    })
-    .then(() => {
-      displayWeather();
-    });
+if ('geolocation' in navigator) {
+  navigator.geolocation.getCurrentPosition(setPosition, showError);
+} else {
+  notificationElement.style.display = 'block';
+  notificationElement.innerHTML = '<p>Browser doesn\'t support Geolocation!</p>';
 }
 
 
