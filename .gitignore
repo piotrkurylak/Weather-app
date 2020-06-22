@@ -1,8 +1,0 @@
-node_modules
-dist
-yarn.lock
-webpack.config.js
-package-lock.json
-package.json
-.prettierrc
-.eslintrc.json
