@@ -1,43 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather app</title>
+        <link rel="stylesheet" href="src/styles/css/style.css" />
+        <link rel="stylesheet" href="src/font/Rimouski.css" />
+        <link rel="icon" type="image/jpg" href="src/icons/favicon.png" />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather app</title>
-    <link rel="stylesheet" href="styles/css/style.css">
-    <link rel="stylesheet" href="font/Rimouski.css">
-    <link rel="icon" type="image/jpg" href="icons/favicon.png" />
-</head>
-
-<body>
-    <p class="notification">User denied geolocation permission!</p>
-    <section class="weather">
-        <section class="weather__date-container">
-            <p class="weather__time">-</p>
-            <p class="weather__date">-</p>
-        </section>
-
-        <section class="weather__container">
-            <p class="weather__temperature">- º<span class="weather__mark">C</span></p>
-            <figure class="weather__photo">
-                <img class="weather__img" src="icons/black/unknown.png" alt="Weather icon">
-            </figure>
-            <p class="weather__description"></p>
-            <h1 class="weather__location"></h1>
-        </section>
-        <section class="weather__grid-container">
-            <section class="weather__days">
+    <body>
+        <p class="notification">User denied geolocation permission!</p>
+        <section class="weather">
+            <section class="weather__date-container">
+                <p class="weather__time">-</p>
+                <p class="weather__date">-</p>
             </section>
-            <section class="weather__icons">
+
+            <section class="weather__container">
+                <p class="weather__temperature">
+                    - º<span class="weather__mark">C</span>
+                </p>
+                <figure class="weather__photo">
+                    <img
+                        class="weather__img"
+                        src="src/icons/black/unknown.png"
+                        alt="Weather icon"
+                    />
+                </figure>
+                <p class="weather__description">-</p>
+                <h1 class="weather__location">-</h1>
             </section>
-            <section class="weather__temperatures">
+            <section class="weather__grid-container">
+                <section class="weather__days"></section>
+                <section class="weather__icons"></section>
+                <section class="weather__temperatures"></section>
             </section>
         </section>
-
-
-    </section>
-    <script src="scripts/app.js"></script>
-</body>
-
+        <script src="src/scripts/app.js"></script>
+    </body>
 </html>
